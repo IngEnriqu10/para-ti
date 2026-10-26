@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050b14">
+<title>Una sorpresa para ti 💖</title>
+<style>
+:root { --pink:#ff4f91; --cream:#fff0d8; --night:#050b14; }
+* { box-sizing:border-box; }
+body {
+  margin:0; min-height:100vh; overflow:hidden; font-family:Arial,sans-serif;
+  /* Fondo principal: Profundidad del Océano */
+  background:radial-gradient(ellipse at 50% 35%, #1c4966 0%, #0f2847 42%, #050b14 100%);
+  color:white; display:flex; align-items:center; justify-content:center;
+}
+#pantalla-inicio {
+  position:fixed; inset:0; z-index:50; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:24px;
+  /* Fondo inicio: Profundidad del Océano más claro */
+  background:radial-gradient(ellipse at 50% 35%, #266187 0%, #15365e 48%, #050b14 100%);
+  transition:opacity .9s ease, visibility .9s ease;
+}
+#pantalla-inicio::before, #pantalla-inicio::after {
+  content:""; position:absolute; border:1px solid rgba(255,255,255,.13);
+  width:min(80vw,440px); aspect-ratio:1; border-radius:50%; animation:halo 5s ease-in-out infinite;
+}
+#pantalla-inicio::after { width:min(65vw,350px); animation-delay:-2.5s; }
+.intro-heart { font-size:clamp(3.5rem,12vw,6rem); filter:drop-shadow(0 0 22px #ff75ad); animation:heartbeat 1.4s infinite; z-index:1; }
+.intro-kicker { margin:18px 0 8px; text-transform:uppercase; letter-spacing:.28em; font-size:.72rem; color:#cde0f5; z-index:1; }
+.intro-copy { max-width:330px; line-height:1.6; color:#dbe8f7; margin:0 0 28px; z-index:1; }
+.boton-iniciar {
+  position:relative; z-index:2; border:1px solid rgba(255,255,255,.6); border-radius:999px;
+  padding:16px 25px; color:white; font-size:1rem; font-weight:bold; letter-spacing:.02em;
+  background:linear-gradient(120deg,#ff4f91,#ff7b9e,#c64dca); background-size:200% 200%;
+  box-shadow:0 0 0 7px rgba(255,255,255,.06),0 12px 35px rgba(255,52,137,.4);
+  cursor:pointer; animation:buttonGlow 3s ease infinite; transition:transform .2s;
+}
+.boton-iniciar:hover { transform:translateY(-3px) scale(1.04); }
+.boton-iniciar:active { transform:scale(.96); }
+#contenido-sorpresa {
+  display:none; width:100%; min-height:100vh; flex-direction:column; align-items:center; justify-content:center;
+  padding:18px 12px 48px; text-align:center; position:relative; isolation:isolate;
+}
+.message { z-index:10; margin-top:-10px; animation:fadeUp 1.2s .3s both; }
+.message h2 { font:normal clamp(1.9rem,6vw,3rem) Georgia,serif; margin:0; text-shadow:0 2px 20px #f05b9a66; }
+.message p { color:#e8f0f8; margin:10px 0 0; font-size:.96rem; line-height:1.5; }
+.bouquet { width:min(94vw,480px); height:clamp(330px,57vh,490px); position:relative; margin-top:2px; animation:sway 5s ease-in-out infinite alternate; transform-origin:50% 100%; z-index:3; }
+.bouquet svg { width:100%; height:100%; overflow:visible; }
+.stem { stroke-dasharray:500; stroke-dashoffset:500; animation:drawStem 2.2s ease-out forwards; }
+.leaf { transform-box:fill-box; transform-origin:center; animation:leafPop .9s 1s both; }
+.flower { transform-box:fill-box; transform-origin:center; transform:scale(0); animation:bloom 1.1s cubic-bezier(.175,.885,.32,1.275) forwards; }
+.flower:nth-of-type(2n) { animation-delay:.25s; }
+.flower:nth-of-type(3n) { animation-delay:.5s; }
+.flower:nth-of-type(4n) { animation-delay:.75s; }
+.sparkle { animation:twinkle 2s ease-in-out infinite alternate; transform-origin:center; }
+.floating {
+  position:fixed; bottom:-30px; pointer-events:none; z-index:2; animation:floatUp linear forwards;
+  filter:drop-shadow(0 0 7px rgba(255,160,205,.35)); user-select:none;
+}
+.music-player { position:fixed; width:250px; height:80px; bottom:8px; opacity:.02; pointer-events:none; z-index:1; }
+#contenido-sorpresa::before {
+  content:""; position:absolute; width:min(95vw,650px); height:min(95vw,650px); border-radius:50%;
+  background:radial-gradient(circle,rgba(255,95,164,.18),transparent 68%); z-index:-1;
+}
+@keyframes heartbeat { 0%,100%{transform:scale(1)} 12%{transform:scale(1.12)} 24%{transform:scale(1)} 36%{transform:scale(1.08)} }
+@keyframes halo { 0%,100%{transform:scale(.94);opacity:.35} 50%{transform:scale(1.06);opacity:.8} }
+@keyframes buttonGlow { 0%,100%{background-position:0% 50%;box-shadow:0 0 0 7px rgba(255,255,255,.06),0 12px 35px rgba(255,52,137,.35)} 50%{background-position:100% 50%;box-shadow:0 0 0 10px rgba(255,255,255,.03),0 12px 42px rgba(255,52,137,.6)} }
+@keyframes drawStem { to{stroke-dashoffset:0} }
+@keyframes bloom { 0%{transform:scale(0) rotate(-18deg)} 75%{transform:scale(1.12) rotate(4deg)} 100%{transform:scale(1) rotate(0)} }
+@keyframes leafPop { from{opacity:0;transform:scale(.2)} to{opacity:1;transform:scale(1)} }
+@keyframes sway { 0%{transform:rotate(-2.2deg)} 100%{transform:rotate(2.2deg)} }
+@keyframes floatUp { 0%{transform:translateY(0) scale(.7) rotate(0);opacity:0} 12%{opacity:.9} 100%{transform:translateY(-110vh) scale(1.35) rotate(25deg);opacity:0} }
+@keyframes twinkle { from{opacity:.35;transform:scale(.7)} to{opacity:1;transform:scale(1.15)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@media(max-height:650px) { .bouquet{height:55vh;min-height:270px} .message h2{font-size:1.8rem} .message p{margin-top:5px} #contenido-sorpresa{padding-top:8px} }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+<div id="pantalla-inicio" role="button" tabindex="0" aria-label="Abrir sorpresa" onclick="iniciarSorpresa()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();iniciarSorpresa()}">
+  <div class="intro-heart">💝</div>
+  <div class="intro-kicker">Una pequeña sorpresa</div>
+  <p class="intro-copy">Hay cosas bonitas que merecen abrirse con una sonrisa. Esta es una de ellas… ✨</p>
+  <button class="boton-iniciar" type="button" onclick="event.stopPropagation();iniciarSorpresa()">Toca para descubrir ❤️</button>
+</div>
+
+<div id="contenido-sorpresa">
+  <div class="message">
+    <h2>Un ramo para ti 🌷</h2>
+    <p>Porque mereces un poquito de magia cada día.<br><br><strong>mañana somos no lo olvides :3</strong></p>
+  </div>
+  <div class="bouquet">
+    <svg viewBox="0 0 400 450" role="img" aria-label="Ramo animado de flores rosas, rojas, amarillas y lilas">
+      <defs>
+        <g id="rose">
+          <ellipse cx="0" cy="-12" rx="10" ry="17" fill="currentColor"/>
+          <ellipse cx="-12" cy="-2" rx="10" ry="15" fill="currentColor" transform="rotate(-48 -12 -2)"/>
+          <ellipse cx="12" cy="-2" rx="10" ry="15" fill="currentColor" transform="rotate(48 12 -2)"/>
+          <ellipse cx="-7" cy="8" rx="9" ry="12" fill="currentColor" transform="rotate(-25 -7 8)"/>
+          <ellipse cx="7" cy="8" rx="9" ry="12" fill="currentColor" transform="rotate(25 7 8)"/>
+          <circle cy="0" r="7" fill="#ffd98a"/>
+          <circle cy="0" r="3.5" fill="#fff0b0"/>
+        </g>
+        <g id="daisy">
+          <g fill="currentColor">
+            <ellipse cy="-12" rx="5.5" ry="12"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(45)"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(90)"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(135)"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(180)"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(225)"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(270)"/>
+            <ellipse cy="-12" rx="5.5" ry="12" transform="rotate(315)"/>
+          </g><circle r="7.5" fill="#ffce55"/><circle r="3" fill="#fff1b8"/>
+        </g>
+        <g id="tulip">
+          <path d="M-15 8 Q-20 -13 -12 -22 L-4 -9 Q0 -31 5 -9 L13 -23 Q22 -5 14 8 Q0 20 -15 8Z" fill="currentColor"/>
+          <path d="M0 10 L0 19" stroke="#ffe0a8" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </defs>
+      <!-- Stems -->
+      <g fill="none" stroke="#43845a" stroke-linecap="round" stroke-width="4">
+        <path class="stem" d="M200 430 Q180 320 190 190"/>
+        <path class="stem" d="M202 430 Q220 320 255 200"/>
+        <path class="stem" d="M198 430 Q155 320 125 220"/>
+        <path class="stem" d="M200 430 Q240 335 310 250"/>
+        <path class="stem" d="M200 430 Q150 350 75 270"/>
+        <path class="stem" d="M200 430 Q180 330 165 265"/>
+        <path class="stem" d="M200 430 Q230 350 230 280"/>
+        <path class="stem" d="M200 430 Q130 350 105 315"/>
+        <path class="stem" d="M200 430 Q270 350 285 305"/>
+        <path class="stem" d="M200 430 Q195 320 205 245"/>
+        <path class="stem" d="M200 430 Q165 340 145 300"/>
+        <path class="stem" d="M200 430 Q245 340 265 285"/>
+      </g>
+      <!-- Leaves -->
+      <g fill="#55a66c" stroke="#2e7048" stroke-width="1.2">
+        <path class="leaf" d="M183 350 Q140 320 145 290 Q180 305 183 350Z"/>
+        <path class="leaf" d="M214 365 Q255 330 270 342 Q250 370 214 365Z"/>
+        <path class="leaf" d="M168 385 Q130 365 120 340 Q158 347 168 385Z"/>
+        <path class="leaf" d="M225 390 Q265 365 288 375 Q260 400 225 390Z"/>
+        <path class="leaf" d="M185 320 Q150 290 160 270 Q188 290 185 320Z"/>
+        <path class="leaf" d="M225 320 Q255 290 278 300 Q254 325 225 320Z"/>
+        <path class="leaf" d="M155 350 Q115 330 100 305 Q140 317 155 350Z"/>
+        <path class="leaf" d="M240 350 Q280 320 300 330 Q270 355 240 350Z"/>
+      </g>
+      <!-- Flowers: back row -->
+      <g class="flower" style="color:#ff7cae"><use href="#daisy" x="75" y="265"/></g>
+      <g class="flower" style="color:#ffc75e"><use href="#tulip" x="125" y="220"/></g>
+      <g class="flower" style="color:#c8a0ff"><use href="#daisy" x="165" y="265"/></g>
+      <g class="flower" style="color:#ff668c"><use href="#rose" x="190" y="190"/></g>
+      <g class="flower" style="color:#ffcc6a"><use href="#daisy" x="205" y="245"/></g>
+      <g class="flower" style="color:#ff9cc6"><use href="#tulip" x="255" y="200"/></g>
+      <g class="flower" style="color:#bda0ff"><use href="#rose" x="310" y="250"/></g>
+      <g class="flower" style="color:#ff7cae"><use href="#daisy" x="105" y="315"/></g>
+      <g class="flower" style="color:#ff668c"><use href="#tulip" x="145" y="300"/></g>
+      <g class="flower" style="color:#ffc75e"><use href="#rose" x="230" y="280"/></g>
+      <g class="flower" style="color:#ff9cc6"><use href="#daisy" x="285" y="305"/></g>
+      <g class="flower" style="color:#d6a1ff"><use href="#tulip" x="265" y="285"/></g>
+      <!-- Tiny sparkle accents -->
+      <g fill="#fff1c8" class="sparkle">
+        <path d="M50 210 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z"/>
+        <path d="M330 180 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3Z"/>
+        <path d="M320 340 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z"/>
+        <circle cx="90" cy="185" r="3"/><circle cx="300" cy="220" r="2.5"/>
+      </g>
+      <!-- Ribbon and wrap -->
+      <path d="M143 350 Q200 378 257 350 L235 415 Q200 432 165 415Z" fill="#fff0e6" opacity=".9" stroke="#eeb2c8" stroke-width="2"/>
+      <path d="M143 350 Q200 378 257 350 L235 415 Q200 432 165 415Z" fill="none" stroke="#f4c4d6" stroke-width="2"/>
+      <path d="M175 376 Q200 392 225 376 L217 395 Q200 405 183 395Z" fill="#ff4f91"/>
+      <path d="M190 388 L170 410 L192 405 L200 392 L208 405 L230 410 L210 388Z" fill="#ff6caa"/>
+      <path d="M200 390 Q183 375 179 387 Q178 399 200 396 Q222 399 221 387 Q217 375 200 390Z" fill="#ff4f91" stroke="#ffd6e5" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="music-player" id="player-container"></div>
+</div>
+<script>
+let loveInterval = null;
+let started = false;
+function iniciarSorpresa() {
+  if (started) return;
+  started = true;
+  const screen = document.getElementById('pantalla-inicio');
+  screen.style.opacity = '0';
+  screen.style.visibility = 'hidden';
+  setTimeout(() => screen.remove(), 950);
+  document.getElementById('contenido-sorpresa').style.display = 'flex';
+  document.getElementById('player-container').innerHTML =
+    '<iframe width="250" height="80" src="https://www.youtube.com/embed/viimfQi_pUw?autoplay=1&loop=1&playlist=viimfQi_pUw" title="Música para tu sorpresa" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+  createFloatingLove();
+  loveInterval = setInterval(createFloatingLove, 480);
+}
+function createFloatingLove() {
+  const items = ['love'];
+  const el = document.createElement('span');
+  el.className = 'floating';
+  el.textContent = items[Math.floor(Math.random() * items.length)];
+  el.style.left = Math.random() * 96 + 'vw';
+  const duration = 4 + Math.random() * 4;
+  el.style.animationDuration = duration + 's';
+  el.style.fontSize = (14 + Math.random() * 15) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), duration * 1000);
+}
+</script>
+</body>
+</html>
