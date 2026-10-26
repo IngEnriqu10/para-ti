@@ -3,22 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050b14">
+<meta name="theme-color" content="#000000">
 <title>Una sorpresa para ti 💖</title>
 <style>
-:root { --pink:#ff4f91; --cream:#fff0d8; --night:#050b14; }
+:root { --pink:#ff4f91; --cream:#fff0d8; --night:#000000; }
 * { box-sizing:border-box; }
 body {
   margin:0; min-height:100vh; overflow:hidden; font-family:Arial,sans-serif;
-  /* Fondo principal: Profundidad del Océano */
-  background:radial-gradient(ellipse at 50% 35%, #1c4966 0%, #0f2847 42%, #050b14 100%);
+  background-color: var(--night);
   color:white; display:flex; align-items:center; justify-content:center;
 }
 #pantalla-inicio {
   position:fixed; inset:0; z-index:50; display:flex; flex-direction:column;
   align-items:center; justify-content:center; text-align:center; padding:24px;
-  /* Fondo inicio: Profundidad del Océano más claro */
-  background:radial-gradient(ellipse at 50% 35%, #266187 0%, #15365e 48%, #050b14 100%);
+  background-color: var(--night);
   transition:opacity .9s ease, visibility .9s ease;
 }
 #pantalla-inicio::before, #pantalla-inicio::after {
@@ -27,8 +25,8 @@ body {
 }
 #pantalla-inicio::after { width:min(65vw,350px); animation-delay:-2.5s; }
 .intro-heart { font-size:clamp(3.5rem,12vw,6rem); filter:drop-shadow(0 0 22px #ff75ad); animation:heartbeat 1.4s infinite; z-index:1; }
-.intro-kicker { margin:18px 0 8px; text-transform:uppercase; letter-spacing:.28em; font-size:.72rem; color:#cde0f5; z-index:1; }
-.intro-copy { max-width:330px; line-height:1.6; color:#dbe8f7; margin:0 0 28px; z-index:1; }
+.intro-kicker { margin:18px 0 8px; text-transform:uppercase; letter-spacing:.28em; font-size:.72rem; color:#ffd5e7; z-index:1; }
+.intro-copy { max-width:330px; line-height:1.6; color:#f8ddeb; margin:0 0 28px; z-index:1; }
 .boton-iniciar {
   position:relative; z-index:2; border:1px solid rgba(255,255,255,.6); border-radius:999px;
   padding:16px 25px; color:white; font-size:1rem; font-weight:bold; letter-spacing:.02em;
@@ -42,9 +40,14 @@ body {
   display:none; width:100%; min-height:100vh; flex-direction:column; align-items:center; justify-content:center;
   padding:18px 12px 48px; text-align:center; position:relative; isolation:isolate;
 }
+/* Estrellas de fondo */
+.star {
+  position:absolute; width:2px; height:2px; background:white; border-radius:50%;
+  z-index:-1; opacity:0;
+}
 .message { z-index:10; margin-top:-10px; animation:fadeUp 1.2s .3s both; }
 .message h2 { font:normal clamp(1.9rem,6vw,3rem) Georgia,serif; margin:0; text-shadow:0 2px 20px #f05b9a66; }
-.message p { color:#e8f0f8; margin:10px 0 0; font-size:.96rem; line-height:1.5; }
+.message p { color:#f6d9e8; margin:10px 0 0; font-size:.96rem; line-height:1.5; }
 .bouquet { width:min(94vw,480px); height:clamp(330px,57vh,490px); position:relative; margin-top:2px; animation:sway 5s ease-in-out infinite alternate; transform-origin:50% 100%; z-index:3; }
 .bouquet svg { width:100%; height:100%; overflow:visible; }
 .stem { stroke-dasharray:500; stroke-dashoffset:500; animation:drawStem 2.2s ease-out forwards; }
@@ -54,15 +57,18 @@ body {
 .flower:nth-of-type(3n) { animation-delay:.5s; }
 .flower:nth-of-type(4n) { animation-delay:.75s; }
 .sparkle { animation:twinkle 2s ease-in-out infinite alternate; transform-origin:center; }
-.floating {
-  position:fixed; bottom:-30px; pointer-events:none; z-index:2; animation:floatUp linear forwards;
-  filter:drop-shadow(0 0 7px rgba(255,160,205,.35)); user-select:none;
+
+/* Corazones estilo botón flotantes */
+.floating-btn {
+  position:fixed; bottom:-50px; z-index:2; padding:10px 14px;
+  background:linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  border:1px solid rgba(255,255,255,0.2); border-radius:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.3);
+  backdrop-filter:blur(4px); font-size:1.3rem; pointer-events:none;
+  animation:floatUp linear forwards; user-select:none;
+  display:flex; align-items:center; justify-content:center;
 }
-.music-player { position:fixed; width:250px; height:80px; bottom:8px; opacity:.02; pointer-events:none; z-index:1; }
-#contenido-sorpresa::before {
-  content:""; position:absolute; width:min(95vw,650px); height:min(95vw,650px); border-radius:50%;
-  background:radial-gradient(circle,rgba(255,95,164,.18),transparent 68%); z-index:-1;
-}
+
 @keyframes heartbeat { 0%,100%{transform:scale(1)} 12%{transform:scale(1.12)} 24%{transform:scale(1)} 36%{transform:scale(1.08)} }
 @keyframes halo { 0%,100%{transform:scale(.94);opacity:.35} 50%{transform:scale(1.06);opacity:.8} }
 @keyframes buttonGlow { 0%,100%{background-position:0% 50%;box-shadow:0 0 0 7px rgba(255,255,255,.06),0 12px 35px rgba(255,52,137,.35)} 50%{background-position:100% 50%;box-shadow:0 0 0 10px rgba(255,255,255,.03),0 12px 42px rgba(255,52,137,.6)} }
@@ -70,11 +76,11 @@ body {
 @keyframes bloom { 0%{transform:scale(0) rotate(-18deg)} 75%{transform:scale(1.12) rotate(4deg)} 100%{transform:scale(1) rotate(0)} }
 @keyframes leafPop { from{opacity:0;transform:scale(.2)} to{opacity:1;transform:scale(1)} }
 @keyframes sway { 0%{transform:rotate(-2.2deg)} 100%{transform:rotate(2.2deg)} }
-@keyframes floatUp { 0%{transform:translateY(0) scale(.7) rotate(0);opacity:0} 12%{opacity:.9} 100%{transform:translateY(-110vh) scale(1.35) rotate(25deg);opacity:0} }
+@keyframes floatUp { 0%{transform:translateY(0) scale(.8) rotate(0);opacity:0} 15%{opacity:1} 90%{opacity:1} 100%{transform:translateY(-110vh) scale(1.1) rotate(15deg);opacity:0} }
 @keyframes twinkle { from{opacity:.35;transform:scale(.7)} to{opacity:1;transform:scale(1.15)} }
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes starPulse { 0%{opacity:0;transform:scale(0.5)} 50%{opacity:1;transform:scale(1.2);box-shadow:0 0 6px rgba(255,255,255,0.8)} 100%{opacity:0;transform:scale(0.5)} }
 @media(max-height:650px) { .bouquet{height:55vh;min-height:270px} .message h2{font-size:1.8rem} .message p{margin-top:5px} #contenido-sorpresa{padding-top:8px} }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important} }
 </style>
 </head>
 <body>
@@ -119,6 +125,17 @@ body {
           <path d="M0 10 L0 19" stroke="#ffe0a8" stroke-width="2" stroke-linecap="round"/>
         </g>
       </defs>
+      
+      <!-- Hojitas y pasto extra en el fondo -->
+      <g fill="none" stroke="#2a5a3a" stroke-linecap="round" stroke-width="3">
+        <path class="leaf" d="M120 430 Q 100 370 80 350"/>
+        <path class="leaf" d="M280 430 Q 300 370 320 350"/>
+        <path class="leaf" d="M160 430 Q 140 380 130 340"/>
+        <path class="leaf" d="M240 430 Q 260 380 270 340"/>
+        <path class="leaf" d="M190 430 Q 170 360 160 310"/>
+        <path class="leaf" d="M210 430 Q 230 360 240 310"/>
+      </g>
+
       <!-- Stems -->
       <g fill="none" stroke="#43845a" stroke-linecap="round" stroke-width="4">
         <path class="stem" d="M200 430 Q180 320 190 190"/>
@@ -144,6 +161,12 @@ body {
         <path class="leaf" d="M225 320 Q255 290 278 300 Q254 325 225 320Z"/>
         <path class="leaf" d="M155 350 Q115 330 100 305 Q140 317 155 350Z"/>
         <path class="leaf" d="M240 350 Q280 320 300 330 Q270 355 240 350Z"/>
+        
+        <!-- Nuevas hojitas tupidas en la base -->
+        <path class="leaf" d="M170 430 Q140 400 130 420 Q150 430 170 430Z"/>
+        <path class="leaf" d="M230 430 Q260 400 270 420 Q250 430 230 430Z"/>
+        <path class="leaf" d="M150 430 Q120 390 110 410 Q140 430 150 430Z"/>
+        <path class="leaf" d="M250 430 Q280 390 290 410 Q260 430 250 430Z"/>
       </g>
       <!-- Flowers: back row -->
       <g class="flower" style="color:#ff7cae"><use href="#daisy" x="75" y="265"/></g>
@@ -173,11 +196,11 @@ body {
       <path d="M200 390 Q183 375 179 387 Q178 399 200 396 Q222 399 221 387 Q217 375 200 390Z" fill="#ff4f91" stroke="#ffd6e5" stroke-width="1.5"/>
     </svg>
   </div>
-  <div class="music-player" id="player-container"></div>
 </div>
 <script>
 let loveInterval = null;
 let started = false;
+
 function iniciarSorpresa() {
   if (started) return;
   started = true;
@@ -185,21 +208,44 @@ function iniciarSorpresa() {
   screen.style.opacity = '0';
   screen.style.visibility = 'hidden';
   setTimeout(() => screen.remove(), 950);
-  document.getElementById('contenido-sorpresa').style.display = 'flex';
-  document.getElementById('player-container').innerHTML =
-    '<iframe width="250" height="80" src="https://www.youtube.com/embed/viimfQi_pUw?autoplay=1&loop=1&playlist=viimfQi_pUw" title="Música para tu sorpresa" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-  createFloatingLove();
-  loveInterval = setInterval(createFloatingLove, 480);
+  
+  const contenido = document.getElementById('contenido-sorpresa');
+  contenido.style.display = 'flex';
+  
+  // Crear constelación de estrellas de fondo
+  for(let i = 0; i < 50; i++) {
+    createStar();
+  }
+
+  // Iniciar la lluvia de corazones botón
+  createFloatingHeart();
+  loveInterval = setInterval(createFloatingHeart, 600);
 }
-function createFloatingLove() {
-  const items = ['love'];
-  const el = document.createElement('span');
-  el.className = 'floating';
-  el.textContent = items[Math.floor(Math.random() * items.length)];
-  el.style.left = Math.random() * 96 + 'vw';
-  const duration = 4 + Math.random() * 4;
+
+function createStar() {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random() * 100 + 'vw';
+  star.style.top = Math.random() * 100 + 'vh';
+  const delay = Math.random() * 3;
+  const duration = 1.5 + Math.random() * 2.5;
+  star.style.animation = `starPulse ${duration}s ${delay}s infinite alternate ease-in-out`;
+  document.getElementById('contenido-sorpresa').appendChild(star);
+}
+
+function createFloatingHeart() {
+  const el = document.createElement('div');
+  el.className = 'floating-btn';
+  el.textContent = '❤️'; 
+  el.style.left = Math.random() * 90 + 'vw';
+  
+  // Tamaño aleatorio para el "botón"
+  const scale = 0.8 + Math.random() * 0.5;
+  el.style.transform = `scale(${scale})`;
+  
+  const duration = 5 + Math.random() * 4;
   el.style.animationDuration = duration + 's';
-  el.style.fontSize = (14 + Math.random() * 15) + 'px';
+  
   document.body.appendChild(el);
   setTimeout(() => el.remove(), duration * 1000);
 }
